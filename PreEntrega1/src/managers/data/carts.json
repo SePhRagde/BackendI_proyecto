@@ -1,0 +1,15 @@
+[
+  {
+    "id": "c7880c31-cdbf-4cb5-855d-82f12ee48e5c",
+    "products": [
+      {
+        "product": "2",
+        "quantity": 3
+      },
+      {
+        "product": "1",
+        "quantity": 1
+      }
+    ]
+  }
+]
