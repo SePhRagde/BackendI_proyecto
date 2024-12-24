@@ -1,65 +1,92 @@
 import { Router } from "express";
-import { ProductManager } from "../dao/managers/productManager.js";
+import { productDao } from "../dao/mongoDao/product.dao.js";
 
-const productManager = new ProductManager();
 const router = Router();
 
 router.get("/", async (req, res) => {
-    const { limit } = req.query;
-    try{
-      const products = await productManager.getProducts(limit);
-      res.send(products);
+  const { limit, page, sort, category, status } = req.query;
+  try {
+    const options = {
+      limit: limit || 10,
+      page: page || 1,
+      sort: {
+        price: sort === "asc" ? 1 : -1,
+      },
+      lean: true,
+    };
 
-    } catch (error) {
-        console.log(error);
+    if (status) {
+      const products = await productDao.getAll({ status: status }, options);
+      return res.json({ status: "ok", payload: products });
     }
-})
+
+    if (category) {
+      const products = await productDao.getAll({ category: category }, options);
+      return res.json({ status: "ok", payload: products });
+    }
+
+    const products = await productDao.getAll({}, options);
+    res.json({ status: "ok", payload: products });
+  } catch (error) {
+    console.log(error);
+    res.send(error.message);
+  }
+});
 
 router.get("/:pid", async (req, res) => {
-const { pid } = req.params;
-try {
-    const product = await productManager.getProductById(pid);
-    res.send(product);
-} catch(error) {
-    console.log(error)
-    res.send(error.message)
-}
-})
+  const { pid } = req.params;
+  try {
+    const product = await productDao.getById(pid);
+    if (!product) return res.json({ status: "error", message: `Product id ${pid} not found` });
+
+    res.json({ status: "ok", payload: product });
+  } catch (error) {
+    console.log(error);
+    res.send(error.message);
+  }
+});
 
 router.post("/", async (req, res) => {
-    const body = req.body;
-    try{
-        const product = await productManager.addProduct(body);
+  const body = req.body;
+  try {
+    const product = await productDao.create(body);
 
-        res.send(product)
-    } catch (error) {
-        console.log(error);
-        res.send(error.message)
-    }
-
-})
+    res.json({ status: "ok", payload: product });
+  } catch (error) {
+    console.log(error);
+    res.send(error.message);
+  }
+});
 
 router.put("/:pid", async (req, res) => {
-    const { pid } = req.params;
-    const body = req.body
-    try {
-        const product = await productManager.updateProduct(pid, body);
-        res.send(product);
-    } catch(error) {
-        console.log(error)
-        res.send(error.message)
-    }
-    })
+  const { pid } = req.params;
+  const body = req.body;
+  try {
+    const findProduct = await productDao.getById(pid);
+    if (!findProduct) return res.json({ status: "error", message: `Product id ${pid} not found` });
 
-    router.delete("/:pid", async (req, res) => {
-        const { pid } = req.params;
-        try {
-            const product = await productManager.deleteProduct(pid);
-            res.send(product);
-        } catch(error) {
-            console.log(error)
-            res.send(error.message)
-        }
-        })
+    const product = await productDao.update(pid, body);
 
-export default router
+    res.json({ status: "ok", payload: product });
+  } catch (error) {
+    console.log(error);
+    res.send(error.message);
+  }
+});
+
+router.delete("/:pid", async (req, res) => {
+  const { pid } = req.params;
+  try {
+    const findProduct = await productDao.getById(pid);
+    if (!findProduct) return res.json({ status: "error", message: `Product id ${pid} not found` });
+
+    const product = await productDao.delete(pid);
+
+    res.json({ status: "ok", payload: `Product id ${pid} deleted` });
+  } catch (error) {
+    console.log(error);
+    res.send(error.message);
+  }
+});
+
+export default router;
