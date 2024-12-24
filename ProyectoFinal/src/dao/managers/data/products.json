@@ -1,0 +1,57 @@
+[
+  {
+    "id": "d0f55d42-fa5e-4574-a470-4298622e2dd6",
+    "title": "Producto 1",
+    "description": "Este es el producto 1",
+    "price": 500,
+    "thumbnail": [],
+    "code": "ASD123",
+    "stock": 50,
+    "category": "soketes",
+    "status": true
+  },
+  {
+    "id": "55aa2ca8-81a7-43dd-88a5-c09cb940dcf7",
+    "title": "Producto 2",
+    "description": "Este es el producto 2",
+    "price": 500,
+    "thumbnail": [],
+    "code": "ASD124",
+    "stock": 50,
+    "category": "soketes",
+    "status": true
+  },
+  {
+    "id": "251a973a-cf21-4761-93fe-432548444cdf",
+    "title": "Producto 3",
+    "description": "Este es el producto 3",
+    "price": 500,
+    "thumbnail": [],
+    "code": "ASD125",
+    "stock": 50,
+    "category": "soketes",
+    "status": true
+  },
+  {
+    "id": "444c5024-d625-4e0e-9fb6-0811b0292d79",
+    "title": "Producto 4",
+    "description": "Este es el producto 4",
+    "price": 500,
+    "thumbnail": [],
+    "code": "ASD126",
+    "stock": 50,
+    "category": "soketes",
+    "status": true
+  },
+  {
+    "id": "2e22a69a-932b-44d9-9f79-c491e76f73b4",
+    "title": "Producto 5",
+    "description": "Este es el producto 5",
+    "price": 300,
+    "thumbnail": [],
+    "code": "ASD127",
+    "stock": 50,
+    "category": "soketes",
+    "status": true
+  }
+]
